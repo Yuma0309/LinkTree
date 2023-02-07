@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}LinkTree{% endblock %}
+
+{% block header%}
+<header>
+    <br><br>
+</header>
+{% endblock %}
+
+{% block contents %}
+<div class="container">
+    <div class="my-div-style">
+        <form method="post">
+
+            {% for list in lists %}
+            <div class="mt-3 mb-3 col-8">
+                <p>{{ list }}</p>
+            </div>
+            {% endfor %}
+
+        </form>
+    </div>
+</div>
+{% endblock %}

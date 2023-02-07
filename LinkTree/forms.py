@@ -7,4 +7,4 @@ class Form(forms.Form):
         super().__init__(*args, **kwargs)
 
         self.fields['url'].widget.attrs['class'] = 'form-control'
-        self.fields['url'].widget.attrs['placeholder'] = 'URLをここに入力してください'
+        self.fields['url'].widget.attrs['placeholder'] = 'URLを入力してください'
