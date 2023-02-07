@@ -1,7 +1,7 @@
 from django import forms
 
 class Form(forms.Form):
-    url = forms.CharField(label='URL')
+    url = forms.URLField(label='URL')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
