@@ -50,7 +50,6 @@ def listfunc(request):
     # 探索の関数
     def search(text2, url2, a_href2):
         global i, domain, lists
-        # 【要件4】入力で指定したドメイン以外の探索は行わないこと
         if domain in a_href2:
             page_url = url2
         else:
@@ -64,8 +63,8 @@ def listfunc(request):
         text3 = text2 + '　　'
         a_tags2 = soup2.find_all(['a'])
         a_hrefs2 = []
+        # 【要件2】1ページ内で同一ページへのリンクが複数ある場合、一つにまとめること
         for a_tag2 in a_tags2:
-            # 【要件2】1ページ内で同一ページへのリンクが複数ある場合、一つにまとめること
             if 'href' in a_tag2.attrs:
                 a_hrefs2.append(a_tag2.attrs['href']) # a_tag2.attrs['href']の配列を作成
         a_hrefs_num2 = []
@@ -94,12 +93,23 @@ def listfunc(request):
 
                 # 【要件7】ページの探索は上位階層を優先する
                 if a_href2 == a_hrefs2[-1]: # a_href2が配列a_hrefs2の最後の要素の場合
-                    search(text3, url2, a_href3)
+                    # 【要件4】入力で指定したドメイン以外の探索は行わないこと
+                    if domain in a_href3 and 'http' in a_href3: # a_href3がドメインを含む　かつ　a_href3が'http'を含む
+                        search(text, url, a_href3)
 
-                    # 【要件3】探索 [2] は最大30回とし、未探索のページには末尾に$を付与する
-                    i += 1 # 探索回数をカウント
-                    if i >= 30:
-                        break
+                        # 【要件3】探索 [2] は最大30回とし、未探索のページには末尾に$を付与する
+                        i += 1 # 探索回数をカウント
+                        if i >= 30:
+                            break
+                    elif 'http' in a_href3:
+                        a_href3
+                    else:
+                        search(text3, url2, a_href3)
+
+                        # 【要件3】探索 [2] は最大30回とし、未探索のページには末尾に$を付与する
+                        i += 1 # 探索回数をカウント
+                        if i >= 30:
+                            break
 
             # 【要件5】出現ページが重複した場合、末尾に!を付与し、それ以降の探索を行わないこと
             else:
@@ -114,8 +124,8 @@ def listfunc(request):
     text = ''
     a_tags = soup.find_all(['a'])
     a_hrefs = []
+    # 【要件2】1ページ内で同一ページへのリンクが複数ある場合、一つにまとめること
     for a_tag in a_tags:
-        # 【要件2】1ページ内で同一ページへのリンクが複数ある場合、一つにまとめること
         if 'href' in a_tag.attrs:
             a_hrefs.append(a_tag.attrs['href']) # a_tag.attrs['href']の配列を作成
     a_hrefs_num = []
@@ -142,13 +152,24 @@ def listfunc(request):
                 lists.append(('　　' + text + 'ー　＊＊(' + a_tag['href'] + ')'))
             else:
                 lists.append(('　　' + text + 'ー　' + a_tag.text.strip() + '(' + a_tag['href'] + ')'))
+            
+            # 【要件4】入力で指定したドメイン以外の探索は行わないこと
+            if domain in a_href and 'http' in a_href: # a_hrefがドメインを含む　かつ　a_hrefが'http'を含む
+                search(text, url, a_href)
 
-            search(text, url, a_href)
+                # 【要件3】探索 [2] は最大30回とし、未探索のページには末尾に$を付与する
+                i += 1 # 探索回数をカウント
+                if i >= 30:
+                    break
+            elif 'http' in a_href:
+                a_href
+            else:
+                search(text, url, a_href)
 
-            # 【要件3】探索 [2] は最大30回とし、未探索のページには末尾に$を付与する
-            i += 1 # 探索回数をカウント
-            if i >= 30:
-                break
+                # 【要件3】探索 [2] は最大30回とし、未探索のページには末尾に$を付与する
+                i += 1 # 探索回数をカウント
+                if i >= 30:
+                    break
 
         # 【要件5】出現ページが重複した場合、末尾に!を付与し、それ以降の探索を行わないこと
         else:
