@@ -57,7 +57,7 @@ def listfunc(request):
         res2 = requests.get(page_url)
         # 【要件8】対象とするサイトヘのアクセスを軽減する為、リクエスト間隔を1秒以上空けること
         time.sleep(2)
-        soup2 = BeautifulSoup(res2.text, 'html.parser')
+        soup2 = BeautifulSoup(res2.content, 'html.parser')
 
         # 下位階層のページ内の「リンクテキスト（パス）」を表示
         text3 = text2 + '　　'
@@ -102,7 +102,7 @@ def listfunc(request):
                         if i >= 30:
                             break
                     elif 'http' in a_href3:
-                        a_href3
+                        continue
                     else:
                         search(text3, url2, a_href3)
 
@@ -162,7 +162,7 @@ def listfunc(request):
                 if i >= 30:
                     break
             elif 'http' in a_href:
-                a_href
+                continue
             else:
                 search(text, url, a_href)
 
