@@ -4,11 +4,7 @@ WebサイトのURLを入力すると、サイトのリンク構造をツリー�
 
 スクレイピングの技術を使用しております。
 
-<br><br>
-
-以下のリンクにアクセスすると、Webアプリ「LinkTree」のページに移動します。
-
-・[LinkTree](https://yumanakamura.pythonanywhere.com/)
+<br>
 
 ![linktree_list](https://user-images.githubusercontent.com/97374588/220597793-9c5bc2b7-64ec-4b55-b5ec-6e4a9fb85fda.jpeg)
 
